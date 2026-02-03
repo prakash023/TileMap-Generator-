@@ -35,3 +35,8 @@ project_root-/
 └── New_Leaflet/
 ├── style.css # Styling for the web interface
 └── javascript.js # Frontend logic and Leaflet integration
+
+<img width="1013" height="920" alt="Webversion_Tilemap" src="https://github.com/user-attachments/assets/610f43c9-3d17-4897-af6e-41839cbb6425" />
+
+
+

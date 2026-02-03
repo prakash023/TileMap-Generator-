@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Polygon → Tile Map</title>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
@@ -15,9 +16,38 @@
 <h2>Convert Polygon GeoJSON to Tiles</h2>
 
 <div class="container">
+  <!-- LEFT PANEL: CONTROLS -->
   <div class="controls">
-    <label>Upload GeoJSON</label>
-    <input type="file" id="geojsonFile" accept=".geojson"/>
+    <!-- DRAG & DROP AREA -->
+    <div class="upload-section">
+      <label>Upload GeoJSON</label>
+      <div class="drop-zone" id="dropZone">
+        <div class="drop-content">
+          <svg class="drop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          <p class="drop-text">Drag & Drop GeoJSON file here</p>
+          <p class="drop-subtext">or click to browse</p>
+          <input type="file" id="geojsonFile" accept=".geojson" hidden>
+          <button class="browse-btn">Browse Files</button>
+        </div>
+        <div class="file-info" id="fileInfo" style="display: none;">
+          <div class="file-name">
+            <svg class="file-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+              <polyline points="13 2 13 9 20 9"/>
+            </svg>
+            <span id="fileName"></span>
+          </div>
+          <div class="file-stats">
+            <span id="fileFeatures">0 features</span>
+            <button class="clear-btn" id="clearFile">×</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <label>Label Column</label>
     <select id="labelColumn">
@@ -30,31 +60,34 @@
       <option value="Hexagon">Hexagon</option>
     </select>
 
-    <label>Scaling Factor</label>
+    <label>Scaling Factor: <span id="scaleValue">0.98</span></label>
     <input type="range" id="scalingFactor" min="0.5" max="2" step="0.01" value="0.98"/>
-    <span id="scaleValue">0.98</span>
 
     <button id="generateBtn">Generate Tiles</button>
-    <button id="exportBtn" onclick="exportGeoJSON()">Export GeoJSON</button>
+    <button id="exportBtn">Export GeoJSON</button>
   </div>
 
+  <!-- RIGHT PANEL: RESULTS -->
   <div class="results">
-    <div id="map"></div>
+    <!-- MAP SECTION (LARGER) -->
+    <div class="map-container">
+      <div id="map"></div>
+    </div>
 
+    <!-- STATISTICS SECTION -->
     <div class="summary">
       <h3>Summary Statistics</h3>
       <div class="stat-grid">
-        <div>Total Polygons: <span id="s-polygons"></span></div>
-        <div>Generated Tiles: <span id="s-tiles"></span></div>
-        <div>Coverage (%): <span id="s-coverage"></span></div>
-        <div>RMS Offset (m): <span id="s-rms"></span></div>
-        <div>Covered Area (m²): <span id="s-covered"></span></div>
-        <div>Uncovered Area (m²): <span id="s-uncovered"></span></div>
-        <div>Combined Metric: <span id="s-combined"></span></div>
+        <div>Total Polygons: <span id="s-polygons">-</span></div>
+        <div>Generated Tiles: <span id="s-tiles">-</span></div>
+        <div>Coverage (%): <span id="s-coverage">-</span></div>
+        <div>RMS Offset (m): <span id="s-rms">-</span></div>
+        <div>Covered Area (m²): <span id="s-covered">-</span></div>
+        <div>Uncovered Area (m²): <span id="s-uncovered">-</span></div>
+        <div>Combined Metric: <span id="s-combined">-</span></div>
+        <div>Tile Width (m): <span id="tile-width">-</span></div>
       </div>
     </div>
-
-    <pre id="consoleOutput"></pre>
   </div>
 </div>
 </body>

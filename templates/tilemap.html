@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Polygon → Tile Map</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='New_Leaflet/style.css') }}">
+  <script src="{{ url_for('static', filename='New_Leaflet/javascript.js') }}" defer></script>
+</head>
+
+<body>
+<h2>Convert Polygon GeoJSON to Tiles</h2>
+
+<div class="container">
+  <div class="controls">
+    <label>Upload GeoJSON</label>
+    <input type="file" id="geojsonFile" accept=".geojson"/>
+
+    <label>Label Column</label>
+    <select id="labelColumn">
+      <option value="None">None</option>
+    </select>
+
+    <label>Tile Shape</label>
+    <select id="tileShape">
+      <option value="Rechteck">Rectangle</option>
+      <option value="Hexagon">Hexagon</option>
+    </select>
+
+    <label>Scaling Factor</label>
+    <input type="range" id="scalingFactor" min="0.5" max="2" step="0.01" value="0.98"/>
+    <span id="scaleValue">0.98</span>
+
+    <button id="generateBtn">Generate Tiles</button>
+    <button id="exportBtn" onclick="exportGeoJSON()">Export GeoJSON</button>
+  </div>
+
+  <div class="results">
+    <div id="map"></div>
+
+    <div class="summary">
+      <h3>Summary Statistics</h3>
+      <div class="stat-grid">
+        <div>Total Polygons: <span id="s-polygons"></span></div>
+        <div>Generated Tiles: <span id="s-tiles"></span></div>
+        <div>Coverage (%): <span id="s-coverage"></span></div>
+        <div>RMS Offset (m): <span id="s-rms"></span></div>
+        <div>Covered Area (m²): <span id="s-covered"></span></div>
+        <div>Uncovered Area (m²): <span id="s-uncovered"></span></div>
+        <div>Combined Metric: <span id="s-combined"></span></div>
+      </div>
+    </div>
+
+    <pre id="consoleOutput"></pre>
+  </div>
+</div>
+</body>
+</html>
